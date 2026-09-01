@@ -8,16 +8,19 @@ import { OptionChip } from "@/components/portfolio/option-chip";
 import { PageFrame } from "@/components/portfolio/page-frame";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
 
+const introMessage =
+  "嗨，欢迎来到 MatchUs！我是你的 AI 匹配助手，告诉我基本资料，我就能帮你找到更合拍的人。准备好了吗？";
+
 const questions = [
   {
-    prompt: "嗨，欢迎来到 MatchUs！我想先了解一下，你希望在这里遇见怎样的人？",
-    id: "intent",
-    options: ["聊得来的朋友", "一起探索城市", "认真认识彼此"],
+    prompt: "先告诉我，希望大家怎么称呼你？",
+    id: "name",
+    options: ["无尽夏", "小宇", "阿言"],
   },
   {
-    prompt: "很棒。那你更喜欢哪一种相处节奏？",
-    id: "pace",
-    options: ["轻松随缘", "每天都能聊聊", "从共同兴趣开始"],
+    prompt: "很高兴认识你。你希望在这里遇见怎样的人？",
+    id: "intent",
+    options: ["聊得来的朋友", "一起探索城市", "认真认识彼此"],
   },
   {
     prompt: "最后一个小问题：什么会让你觉得一次相遇很值得？",
@@ -26,6 +29,7 @@ const questions = [
   },
 ] as const;
 
+// Three chat questions plus the gender selector form the four visible progress steps.
 const chatStepIds = [...questions.map(({ id }) => id), "gender"];
 
 export function ChatScreen({ onNext }: { onNext: () => void }) {
@@ -61,12 +65,13 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
         {transcript.map((question, index) => (
           <div key={question.prompt} className="contents">
             {index === 0 ? (
-              <div className="flex flex-col items-start">
+              <div className="flex flex-col items-start gap-2">
                 <img
                   src={chatAssistant}
                   alt="MatchUs 提问助手"
-                  className="mb-1 h-auto w-16 object-contain drop-shadow-[0_6px_12px_rgba(104,70,178,0.2)]"
+                  className="h-auto w-16 object-contain drop-shadow-[0_6px_12px_rgba(104,70,178,0.2)]"
                 />
+                <ChatBubble>{introMessage}</ChatBubble>
                 <ChatBubble>{question.prompt}</ChatBubble>
               </div>
             ) : (
@@ -85,7 +90,8 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
         ))}
         {completed && (
           <>
-            <ChatBubble>收到啦。你的表达已经让 MatchUs 更懂你，最后方便透露你的性别吗？</ChatBubble>
+            <ChatBubble>{answers[0]}，方便透露你的性别吗？</ChatBubble>
+            <ChatBubble>一经确认后将无法在本次体验中修改哦～</ChatBubble>
             <GenderSelector value={gender} onChange={setGender} />
           </>
         )}
