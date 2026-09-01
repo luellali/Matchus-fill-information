@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "deploy:cloudbase": "tcb hosting deploy dist"
+    "deploy:cloudbase": "tcb hosting deploy dist --safe --verify"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
