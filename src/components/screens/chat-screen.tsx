@@ -86,7 +86,7 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
         )}
       </div>
 
-      {!completed ? (
+      {!completed || !gender ? (
         <div className="flex items-center gap-3 border-t border-white/70 bg-white/64 px-(--page-inline) pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl">
           <Mic className="size-4 text-primary" />
           <div className="h-10 flex-1 rounded-full border border-white bg-white/75 shadow-sm" />
@@ -94,7 +94,7 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
           <Plus className="size-4 text-primary" />
         </div>
       ) : (
-        <ScreenFooter label="选择我的标签" disabled={!gender} onClick={onNext} />
+        <ScreenFooter label="选择我的标签" onClick={onNext} />
       )}
     </PageFrame>
   );
