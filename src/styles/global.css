@@ -388,3 +388,18 @@ button:focus-visible,
   width: clamp(4rem, 16.75cqw, 4.75rem);
   height: clamp(4rem, 16.75cqw, 4.75rem);
 }
+
+.chat-bubble-assistant {
+  border: 1px solid rgb(229 222 248 / 0.92);
+  background: rgb(255 255 255 / 0.9);
+  color: #5d536f;
+  box-shadow: 0 3px 12px rgb(77 53 119 / 0.12);
+}
+
+.chat-bubble-user {
+  background: linear-gradient(110deg, #6f50e6 0%, #9153dc 58%, #a84dcc 100%);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  text-shadow: 0 1px 1px rgb(48 22 92 / 0.18);
+  box-shadow: 0 5px 16px rgb(100 64 176 / 0.22);
+}

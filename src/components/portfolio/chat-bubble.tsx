@@ -12,10 +12,10 @@ export function ChatBubble({
   return (
     <div
       className={cn(
-        "max-w-[78%] rounded-2xl px-4 py-2.5 text-[13px] leading-5 shadow-sm",
+        "max-w-[78%] rounded-[18px] px-4 py-2.5 text-[13px] leading-5",
         fromUser
-          ? "ml-auto rounded-br-md bg-(--brand-gradient) text-white"
-          : "mr-auto rounded-bl-md border border-white/90 bg-white/84 text-foreground/78 backdrop-blur",
+          ? "chat-bubble-user ml-auto rounded-br-none font-medium"
+          : "chat-bubble-assistant mr-auto rounded-bl-none backdrop-blur",
         className,
       )}
     >
