@@ -16,9 +16,9 @@ const genders: Array<{ value: GenderValue; image: string }> = [
 
 export function GenderSelector({ value, onChange }: GenderSelectorProps) {
   return (
-    <fieldset className="flex justify-center py-0.5">
+    <fieldset className="flex justify-center py-3">
       <legend className="sr-only">选择你的性别</legend>
-      <div className="flex h-31 w-[213px] items-end justify-between gap-3">
+      <div className="flex h-31 w-53.25 items-end justify-between gap-3">
         {genders.map(({ value: gender, image }) => {
           const selected = value === gender;
 
@@ -31,7 +31,7 @@ export function GenderSelector({ value, onChange }: GenderSelectorProps) {
               aria-label={gender === "F" ? "选择 F" : "选择 M"}
               onClick={() => onChange(gender)}
               className={cn(
-                "group flex w-24 flex-col items-center gap-1 rounded-[16px] py-1 text-primary transition-all duration-300 active:scale-95",
+                "group flex w-24 flex-col items-center gap-1 rounded-2xl py-1 text-primary transition-all duration-300 active:scale-95",
                 selected ? "-translate-y-1" : "opacity-82 hover:-translate-y-0.5 hover:opacity-100",
               )}
             >
@@ -45,9 +45,11 @@ export function GenderSelector({ value, onChange }: GenderSelectorProps) {
                 <img
                   src={image}
                   alt=""
-                  className="size-[94px] object-contain drop-shadow-[0_8px_14px_rgba(91,61,151,0.16)] transition-transform duration-300 group-hover:scale-[1.03]"
+                  className="size-22 object-contain drop-shadow-[0_8px_14px_rgba(91,61,151,0.16)] transition-transform duration-300 group-hover:scale-[1.03]"
                 />
-                {selected && <span className="absolute right-2 top-2 size-2.5 rounded-full border-2 border-white bg-primary shadow-sm" />}
+                {selected && (
+                  <span className="absolute right-2 top-2 size-2.5 rounded-full border-2 border-white bg-primary shadow-sm" />
+                )}
               </span>
               <span className="text-[16px] font-bold leading-none">{gender}</span>
             </button>
