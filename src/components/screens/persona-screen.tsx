@@ -1,7 +1,8 @@
-import { RotateCcw, Sparkles } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
 import chatAssistant from "@/assets/chat-assistant.png";
+import profileReadyAssistant from "@/assets/profile-ready-assistant.png";
 import { PageFrame } from "@/components/portfolio/page-frame";
 import { type PersonaMatchOption, PersonaMatchRow } from "@/components/portfolio/persona-match-row";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
@@ -67,12 +68,14 @@ export function PersonaScreen({ onRestart }: { onRestart: () => void }) {
 
   if (complete) {
     return (
-      <PageFrame className="animate-screen-in" stage="persona">
+      <PageFrame className="animate-screen-in">
         <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
-          <div className="grid size-20 place-items-center rounded-[28px] brand-gradient text-white shadow-(--shadow-float)">
-            <Sparkles className="size-8" />
-          </div>
-          <p className="mt-7 text-[11px] font-semibold tracking-[0.18em] text-primary">PROFILE READY</p>
+          <img
+            src={profileReadyAssistant}
+            alt="MatchUs 扩音器助手"
+            className="h-auto w-40 max-w-[65%] drop-shadow-[0_14px_28px_rgba(104,70,178,0.18)]"
+          />
+          <p className="mt-5 text-[11px] font-semibold tracking-[0.18em] text-primary">PROFILE READY</p>
           <h1 className="mt-2 text-[28px] font-semibold tracking-[-0.04em]">你的 MatchUs 画像完成了</h1>
           <p className="mt-3 max-w-xs text-sm leading-6 text-muted-foreground">
             真诚、好奇，也愿意走进一段有分寸的关系。现在，每一次推荐都会更接近你。
