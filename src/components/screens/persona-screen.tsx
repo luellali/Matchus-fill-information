@@ -67,7 +67,7 @@ export function PersonaScreen({ onRestart }: { onRestart: () => void }) {
 
   if (complete) {
     return (
-      <PageFrame className="animate-screen-in">
+      <PageFrame className="animate-screen-in" stage="persona">
         <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
           <div className="grid size-20 place-items-center rounded-[28px] brand-gradient text-white shadow-(--shadow-float)">
             <Sparkles className="size-8" />
@@ -97,7 +97,7 @@ export function PersonaScreen({ onRestart }: { onRestart: () => void }) {
   }
 
   return (
-    <PageFrame className="animate-screen-in">
+    <PageFrame className="animate-screen-in" stage="persona">
       <div className="px-(--page-inline) pt-3">
         <ScreenIntro
           eyebrow="PERSONA MATCH"

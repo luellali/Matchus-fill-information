@@ -29,13 +29,9 @@ const questions = [
   },
 ] as const;
 
-// Three chat questions plus the gender selector form the four visible progress steps.
-const chatStepIds = [...questions.map(({ id }) => id), "gender"];
-
 export function ChatScreen({ onNext }: { onNext: () => void }) {
   const [answers, setAnswers] = useState<string[]>([]);
   const [gender, setGender] = useState<GenderValue | null>(null);
-  const activeStep = Math.min(answers.length, chatStepIds.length - 1);
   const completed = answers.length === questions.length;
 
   const transcript = useMemo(
@@ -49,19 +45,8 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
   }
 
   return (
-    <PageFrame className="animate-screen-in">
-      <div className="px-(--page-inline) pt-1">
-        <div className="flex items-center justify-center gap-1.5">
-          {chatStepIds.map((stepId, index) => (
-            <div
-              key={stepId}
-              className={`h-1.5 rounded-full transition-all ${index <= activeStep ? "w-6 bg-primary" : "w-1.5 bg-primary/15"}`}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-(--page-inline) pb-4 pt-5">
+    <PageFrame className="animate-screen-in" stage="chat">
+      <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-(--page-inline) pb-4 pt-3">
         {transcript.map((question, index) => (
           <div key={question.prompt} className="contents">
             {index === 0 ? (

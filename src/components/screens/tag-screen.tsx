@@ -78,7 +78,7 @@ export function TagScreen({ onNext }: { onNext: () => void }) {
   }
 
   return (
-    <PageFrame className="animate-screen-in">
+    <PageFrame className="animate-screen-in" stage="tags">
       <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-(--page-inline) pb-6 pt-3">
         <ScreenIntro
           eyebrow="ABOUT YOU"
