@@ -26,10 +26,12 @@ const questions = [
   },
 ] as const;
 
+const chatStepIds = [...questions.map(({ id }) => id), "gender"];
+
 export function ChatScreen({ onNext }: { onNext: () => void }) {
   const [answers, setAnswers] = useState<string[]>([]);
   const [gender, setGender] = useState<GenderValue | null>(null);
-  const active = Math.min(answers.length, questions.length - 1);
+  const activeStep = Math.min(answers.length, chatStepIds.length - 1);
   const completed = answers.length === questions.length;
 
   const transcript = useMemo(
@@ -46,10 +48,10 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
     <PageFrame className="animate-screen-in">
       <div className="px-(--page-inline) pt-1">
         <div className="flex items-center justify-center gap-1.5">
-          {questions.map((question, index) => (
+          {chatStepIds.map((stepId, index) => (
             <div
-              key={question.id}
-              className={`h-1.5 rounded-full transition-all ${index <= active ? "w-6 bg-primary" : "w-1.5 bg-primary/15"}`}
+              key={stepId}
+              className={`h-1.5 rounded-full transition-all ${index <= activeStep ? "w-6 bg-primary" : "w-1.5 bg-primary/15"}`}
             />
           ))}
         </div>
