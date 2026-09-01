@@ -12,7 +12,7 @@ export function PhoneShell({ children, className, onPointerDown, onPointerUp }: 
   return (
     <main
       className={cn(
-        "relative mx-auto flex h-dvh w-full max-w-107.5 flex-col overflow-hidden bg-background sm:h-[min(874px,calc(100dvh-32px))] sm:rounded-[34px] sm:border sm:border-white/80 sm:shadow-[0_28px_80px_rgba(55,35,93,0.22)]",
+        "relative mx-auto flex h-dvh w-full max-w-107.5 flex-col overflow-hidden bg-background sm:h-[min(874px,calc(100dvh-32px))] sm:w-[min(520px,calc(100vw-128px))] sm:max-w-none sm:rounded-[34px] sm:border sm:border-white/80 sm:shadow-[0_28px_80px_rgba(55,35,93,0.22)]",
         className,
       )}
       onPointerDown={onPointerDown}

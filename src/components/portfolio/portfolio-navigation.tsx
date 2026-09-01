@@ -23,7 +23,7 @@ export function PortfolioNavigation({
 
   return (
     <>
-      <div className="absolute -right-20 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-4 sm:flex">
+      <div className="absolute -right-16 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-4 sm:flex">
         <Button variant="outline" size="icon" disabled={previousDisabled} onClick={onPrevious} aria-label="上一页">
           <ArrowLeft />
         </Button>

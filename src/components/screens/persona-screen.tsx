@@ -60,7 +60,7 @@ export function PersonaScreen({ onRestart }: { onRestart: () => void }) {
         </div>
       </div>
 
-      <div className="relative mx-[var(--page-inline)] my-4 min-h-0 flex-1 overflow-hidden rounded-[30px] border border-white/80 bg-white/42 shadow-inner backdrop-blur-sm">
+      <div className="persona-cloud relative mx-[var(--page-inline)] my-4 min-h-0 flex-1 overflow-hidden rounded-[30px] border border-white/80 bg-white/42 shadow-inner backdrop-blur-sm">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,.96),rgba(248,242,255,.7)_46%,rgba(239,226,255,.55))]" />
         {bubbles.map((bubble, index) => {
           const [left, top, size] = positions[index]
@@ -72,14 +72,14 @@ export function PersonaScreen({ onRestart }: { onRestart: () => void }) {
               aria-pressed={active}
               onClick={() => toggle(bubble.label)}
               className={cn(
-                "absolute grid place-items-center rounded-full border text-center text-[10px] font-medium transition-all duration-300",
+                "persona-bubble absolute grid place-items-center rounded-full border text-center font-medium transition-all duration-300",
                 active ? "z-10 scale-110 border-transparent text-white shadow-[var(--shadow-float)]" : "border-primary/25 bg-white/72 text-foreground/66 hover:scale-105 hover:border-primary/50",
               )}
               style={{
                 left: `${left}%`,
                 top: `${top}%`,
-                width: size,
-                height: size,
+                width: `clamp(${size}px, ${(size / 3.82).toFixed(2)}cqw, ${Math.round(size * 1.2)}px)`,
+                height: `clamp(${size}px, ${(size / 3.82).toFixed(2)}cqw, ${Math.round(size * 1.2)}px)`,
                 background: active ? `linear-gradient(135deg, ${bubble.color}, #d26bda)` : undefined,
                 animation: `bubble-float ${3.6 + (index % 4) * 0.55}s ease-in-out ${index * -0.18}s infinite`,
               }}
@@ -88,7 +88,7 @@ export function PersonaScreen({ onRestart }: { onRestart: () => void }) {
             </button>
           )
         })}
-        <div className="pointer-events-none absolute bottom-4 left-1/2 size-16 -translate-x-1/2 rounded-full bg-[linear-gradient(135deg,#7357e8,#d563db)] opacity-90 blur-[1px]" />
+        <div className="persona-orb pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-[linear-gradient(135deg,#7357e8,#d563db)] opacity-90 blur-[1px]" />
       </div>
       <ScreenFooter label="完成我的画像" disabled={selected.length < 3} onClick={() => setComplete(true)} hint={`已点亮 ${selected.length} 个人设`} />
     </PageFrame>

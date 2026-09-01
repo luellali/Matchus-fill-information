@@ -372,3 +372,19 @@ button:focus-visible,
     transform: translate3d(0, -120%, 0) scale(0.97);
   }
 }
+
+.persona-cloud {
+  container-type: inline-size;
+}
+
+.persona-bubble {
+  font-size: 10px;
+  font-size: clamp(10px, 2.62cqw, 12px);
+}
+
+.persona-orb {
+  width: 4rem;
+  height: 4rem;
+  width: clamp(4rem, 16.75cqw, 4.75rem);
+  height: clamp(4rem, 16.75cqw, 4.75rem);
+}
