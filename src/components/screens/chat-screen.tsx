@@ -1,24 +1,27 @@
-import { useMemo, useState } from "react";
 import { Mic, Plus, Smile } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import chatAssistant from "@/assets/chat-assistant.png";
 import { ChatBubble } from "@/components/portfolio/chat-bubble";
 import { GenderSelector, type GenderValue } from "@/components/portfolio/gender-selector";
+import { OptionChip } from "@/components/portfolio/option-chip";
 import { PageFrame } from "@/components/portfolio/page-frame";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
-import { OptionChip } from "@/components/portfolio/option-chip";
 
 const questions = [
   {
     prompt: "嗨，欢迎来到 MatchUs！我想先了解一下，你希望在这里遇见怎样的人？",
+    id: "intent",
     options: ["聊得来的朋友", "一起探索城市", "认真认识彼此"],
   },
   {
     prompt: "很棒。那你更喜欢哪一种相处节奏？",
+    id: "pace",
     options: ["轻松随缘", "每天都能聊聊", "从共同兴趣开始"],
   },
   {
     prompt: "最后一个小问题：什么会让你觉得一次相遇很值得？",
+    id: "value",
     options: ["被认真倾听", "发现新的可能", "自然地做自己"],
   },
 ] as const;
@@ -43,9 +46,9 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
     <PageFrame className="animate-screen-in">
       <div className="px-(--page-inline) pt-1">
         <div className="flex items-center justify-center gap-1.5">
-          {questions.map((_, index) => (
+          {questions.map((question, index) => (
             <div
-              key={index}
+              key={question.id}
               className={`h-1.5 rounded-full transition-all ${index <= active ? "w-6 bg-primary" : "w-1.5 bg-primary/15"}`}
             />
           ))}

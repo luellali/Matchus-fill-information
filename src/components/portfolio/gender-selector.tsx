@@ -23,18 +23,21 @@ export function GenderSelector({ value, onChange }: GenderSelectorProps) {
           const selected = value === gender;
 
           return (
-            <button
+            <label
               key={gender}
-              type="button"
-              role="radio"
-              aria-checked={selected}
-              aria-label={gender === "F" ? "选择 F" : "选择 M"}
-              onClick={() => onChange(gender)}
               className={cn(
                 "group flex w-24 flex-col items-center gap-1 rounded-2xl py-1 text-primary transition-all duration-300 active:scale-95",
                 selected ? "-translate-y-1" : "opacity-82 hover:-translate-y-0.5 hover:opacity-100",
               )}
             >
+              <input
+                className="sr-only"
+                type="radio"
+                name="gender"
+                value={gender}
+                checked={selected}
+                onChange={() => onChange(gender)}
+              />
               <span
                 className={cn(
                   "relative grid size-24 place-items-center rounded-[18px] transition-all duration-300",
@@ -52,7 +55,7 @@ export function GenderSelector({ value, onChange }: GenderSelectorProps) {
                 )}
               </span>
               <span className="text-[16px] font-bold leading-none">{gender}</span>
-            </button>
+            </label>
           );
         })}
       </div>

@@ -11,13 +11,7 @@ type PortfolioNavigationProps = {
   onSelect: (index: number) => void;
 };
 
-export function PortfolioNavigation({
-  current,
-  total,
-  onPrevious,
-  onNext,
-  onSelect,
-}: PortfolioNavigationProps) {
+export function PortfolioNavigation({ current, total, onPrevious, onNext, onSelect }: PortfolioNavigationProps) {
   const previousDisabled = current === 0;
   const nextDisabled = current === total - 1;
 
@@ -35,7 +29,7 @@ export function PortfolioNavigation({
         </Button>
       </div>
 
-      <div
+      <nav
         className="absolute left-1/2 z-70 flex -translate-x-1/2 items-center gap-2 sm:hidden"
         style={{ bottom: "max(5.25rem, calc(env(safe-area-inset-bottom) + 4.25rem))" }}
         aria-label="作品页面导航"
@@ -63,7 +57,7 @@ export function PortfolioNavigation({
         >
           <ArrowRight />
         </Button>
-      </div>
+      </nav>
     </>
   );
 }

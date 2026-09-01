@@ -1,14 +1,15 @@
-import type { PropsWithChildren } from "react";
+import type { PointerEventHandler, PropsWithChildren } from "react";
 
 import { cn } from "@/lib/utils";
 
 type PhoneShellProps = PropsWithChildren<{
   className?: string;
-  onPointerDown?: (event: React.PointerEvent<HTMLDivElement>) => void;
-  onPointerUp?: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerDown?: PointerEventHandler<HTMLElement>;
+  onPointerUp?: PointerEventHandler<HTMLElement>;
+  onPointerCancel?: PointerEventHandler<HTMLElement>;
 }>;
 
-export function PhoneShell({ children, className, onPointerDown, onPointerUp }: PhoneShellProps) {
+export function PhoneShell({ children, className, onPointerDown, onPointerUp, onPointerCancel }: PhoneShellProps) {
   return (
     <main
       className={cn(
@@ -17,6 +18,7 @@ export function PhoneShell({ children, className, onPointerDown, onPointerUp }: 
       )}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
     >
       {children}
     </main>

@@ -1,21 +1,52 @@
-import { useRef } from "react"
+import { type PointerEventHandler, useRef } from "react";
 
-export function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 56 }: { onSwipeLeft: () => void; onSwipeRight: () => void; threshold?: number }) {
-  const start = useRef<{ x: number; y: number } | null>(null)
+const INTERACTIVE_TARGETS =
+  "button, a, input, select, textarea, summary, [role='button'], [role='link'], [contenteditable='true']";
 
-  return {
-    onPointerDown: (event: React.PointerEvent<HTMLDivElement>) => {
-      start.current = { x: event.clientX, y: event.clientY }
-    },
-    onPointerUp: (event: React.PointerEvent<HTMLDivElement>) => {
-      if (!start.current) return
-      const dx = event.clientX - start.current.x
-      const dy = event.clientY - start.current.y
-      start.current = null
-      if (Math.abs(dx) < threshold || Math.abs(dx) < Math.abs(dy) * 1.25) return
-      if (dx < 0) onSwipeLeft()
-      else onSwipeRight()
-    },
-  }
+type SwipeOptions = {
+  onSwipeLeft: () => void;
+  onSwipeRight: () => void;
+  threshold?: number;
+};
+
+type SwipeStart = {
+  pointerId: number;
+  x: number;
+  y: number;
+};
+
+type SwipeHandlers = {
+  onPointerDown: PointerEventHandler<HTMLElement>;
+  onPointerUp: PointerEventHandler<HTMLElement>;
+  onPointerCancel: PointerEventHandler<HTMLElement>;
+};
+
+function isInteractiveTarget(target: EventTarget | null) {
+  return target instanceof Element && Boolean(target.closest(INTERACTIVE_TARGETS));
 }
 
+export function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 56 }: SwipeOptions): SwipeHandlers {
+  const start = useRef<SwipeStart | null>(null);
+
+  return {
+    onPointerDown: (event) => {
+      // A gesture starting on a control belongs to that control, not to page navigation.
+      if (isInteractiveTarget(event.target)) return;
+      start.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+    },
+    onPointerUp: (event) => {
+      const swipeStart = start.current;
+      if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
+      start.current = null;
+
+      const dx = event.clientX - swipeStart.x;
+      const dy = event.clientY - swipeStart.y;
+      if (Math.abs(dx) < threshold || Math.abs(dx) < Math.abs(dy) * 1.25) return;
+      if (dx < 0) onSwipeLeft();
+      else onSwipeRight();
+    },
+    onPointerCancel: () => {
+      start.current = null;
+    },
+  };
+}

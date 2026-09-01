@@ -38,7 +38,8 @@
   --brand-muted: #847b9b;
   --brand-line: #e9e2fa;
   --brand-gradient: linear-gradient(110deg, #7657e8 0%, #9a69ef 48%, #dc67d8 100%);
-  --brand-haze: radial-gradient(circle at 18% 4%, rgb(226 210 255 / 0.85), transparent 34%),
+  --brand-haze:
+    radial-gradient(circle at 18% 4%, rgb(226 210 255 / 0.85), transparent 34%),
     radial-gradient(circle at 88% 20%, rgb(255 213 242 / 0.76), transparent 32%),
     linear-gradient(180deg, #faf7ff 0%, #f7f3ff 48%, #fff 100%);
 
@@ -118,19 +119,11 @@ button:focus-visible,
 .app-backdrop {
   background:
     radial-gradient(circle at 18% 20%, rgb(187 163 255 / 0.32), transparent 28%),
-    radial-gradient(circle at 82% 78%, rgb(246 169 225 / 0.28), transparent 30%),
-    #eee9f8;
+    radial-gradient(circle at 82% 78%, rgb(246 169 225 / 0.28), transparent 30%), #eee9f8;
 }
 
 .screen-surface {
   background: var(--brand-haze);
-}
-
-.glass-card {
-  border: 1px solid rgb(255 255 255 / 0.74);
-  background: rgb(255 255 255 / 0.76);
-  box-shadow: var(--shadow-card);
-  backdrop-filter: blur(18px);
 }
 
 .brand-gradient {
@@ -165,21 +158,24 @@ button:focus-visible,
 }
 
 @keyframes bubble-float {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -7px, 0); }
-}
-
-@keyframes pulse-soft {
-  0%, 100% { box-shadow: 0 0 0 0 rgb(117 87 232 / 0); }
-  50% { box-shadow: 0 0 0 9px rgb(117 87 232 / 0.08); }
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -7px, 0);
+  }
 }
 
 .animate-screen-in {
-  animation: screen-in 320ms cubic-bezier(.2, .8, .2, 1) both;
+  animation: screen-in 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  /* These overrides must win over component-level motion declarations for accessibility. */
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -204,7 +200,7 @@ button:focus-visible,
   background: rgb(20 16 31 / 0.3);
   backdrop-filter: blur(7px);
   -webkit-backdrop-filter: blur(7px);
-  animation: nudge-scrim-in 650ms cubic-bezier(.2, .75, .2, 1) both;
+  animation: nudge-scrim-in 650ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
 }
 
 .profile-nudge-toast {
@@ -227,15 +223,15 @@ button:focus-visible,
   box-shadow:
     0 13px 36px rgb(40 26 69 / 0.24),
     inset 0 0 16px rgb(218 177 255 / 0.26);
-  animation: nudge-toast-in 680ms cubic-bezier(.16, 1, .3, 1) both;
+  animation: nudge-toast-in 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .profile-nudge-layer[data-phase="exiting"] .profile-nudge-scrim {
-  animation: nudge-scrim-out 420ms cubic-bezier(.4, 0, .6, 1) both;
+  animation: nudge-scrim-out 420ms cubic-bezier(0.4, 0, 0.6, 1) both;
 }
 
 .profile-nudge-layer[data-phase="exiting"] .profile-nudge-toast {
-  animation: nudge-toast-out 460ms cubic-bezier(.4, 0, .8, .2) both;
+  animation: nudge-toast-out 460ms cubic-bezier(0.4, 0, 0.8, 0.2) both;
 }
 
 .profile-nudge-image {
@@ -371,22 +367,6 @@ button:focus-visible,
     opacity: 0;
     transform: translate3d(0, -120%, 0) scale(0.97);
   }
-}
-
-.persona-cloud {
-  container-type: inline-size;
-}
-
-.persona-bubble {
-  font-size: 10px;
-  font-size: clamp(10px, 2.62cqw, 12px);
-}
-
-.persona-orb {
-  width: 4rem;
-  height: 4rem;
-  width: clamp(4rem, 16.75cqw, 4.75rem);
-  height: clamp(4rem, 16.75cqw, 4.75rem);
 }
 
 .chat-bubble-assistant {

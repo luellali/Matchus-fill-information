@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import profileNudgeImage from "@/assets/profile-nudge.png";
 import { Button } from "@/components/ui/button";
@@ -13,16 +13,17 @@ export function ProfileNudge({ onContinue }: ProfileNudgeProps) {
   const [phase, setPhase] = useState<NudgePhase>("visible");
   const replayTimer = useRef<number | null>(null);
 
-  function replayNudge() {
-    if (phase === "exiting") return;
+  const replayNudge = useCallback(() => {
+    if (replayTimer.current !== null) return;
 
+    // The portfolio has one valid CTA, so dismiss attempts replay the prompt instead of hiding it permanently.
     setPhase("exiting");
     const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : 560;
     replayTimer.current = window.setTimeout(() => {
       setPhase("visible");
       replayTimer.current = null;
     }, delay);
-  }
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -31,7 +32,7 @@ export function ProfileNudge({ onContinue }: ProfileNudgeProps) {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  });
+  }, [replayNudge]);
 
   useEffect(() => {
     return () => {
@@ -47,6 +48,10 @@ export function ProfileNudge({ onContinue }: ProfileNudgeProps) {
       aria-modal="true"
       aria-labelledby="profile-nudge-title"
       onClick={replayNudge}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") replayNudge();
+      }}
+      tabIndex={-1}
       onPointerDown={(event) => event.stopPropagation()}
       onPointerUp={(event) => event.stopPropagation()}
     >
