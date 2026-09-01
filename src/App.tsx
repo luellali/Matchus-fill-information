@@ -58,7 +58,7 @@ function App() {
 
   return (
     <div className="app-backdrop relative min-h-dvh sm:grid sm:place-items-center sm:p-4">
-      <div className="relative">
+      <div className="relative mx-auto w-full max-w-107.5">
         <PhoneShell {...swipe}>
           <div key={stage} className="contents">
             {screen}
