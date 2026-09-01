@@ -80,7 +80,7 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
         ))}
         {completed && (
           <>
-            <ChatBubble>收到啦。你的表达已经让 MatchUs 更懂你，最后再告诉我，你是 F 还是 M？</ChatBubble>
+            <ChatBubble>收到啦。你的表达已经让 MatchUs 更懂你，最后方便透露你的性别吗？</ChatBubble>
             <GenderSelector value={gender} onChange={setGender} />
           </>
         )}
