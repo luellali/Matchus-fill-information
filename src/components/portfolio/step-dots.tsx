@@ -1,0 +1,30 @@
+import { cn } from "@/lib/utils";
+
+export function StepDots({
+  current,
+  total = 4,
+  onSelect,
+}: {
+  current: number;
+  total?: number;
+  onSelect?: (index: number) => void;
+}) {
+  return (
+    <nav className="flex items-center justify-center gap-2" aria-label="作品页面">
+      {Array.from({ length: total }).map((_, index) => (
+        <button
+          key={index}
+          type="button"
+          aria-label={`查看第 ${index + 1} 页`}
+          aria-current={index === current ? "step" : undefined}
+          disabled={!onSelect}
+          className={cn(
+            "h-1.5 rounded-full transition-all duration-300 disabled:cursor-default",
+            index === current ? "w-7 bg-primary" : "w-1.5 bg-primary/20 hover:bg-primary/40",
+          )}
+          onClick={() => onSelect?.(index)}
+        />
+      ))}
+    </nav>
+  );
+}
