@@ -1,13 +1,13 @@
-import { Sparkles } from "lucide-react"
+import { Sparkles } from "lucide-react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 type ScreenIntroProps = {
-  eyebrow: string
-  title: string
-  description: string
-  className?: string
-}
+  eyebrow: string;
+  title: string;
+  description: string;
+  className?: string;
+};
 
 export function ScreenIntro({ eyebrow, title, description, className }: ScreenIntroProps) {
   return (
@@ -19,5 +19,5 @@ export function ScreenIntro({ eyebrow, title, description, className }: ScreenIn
       <h1 className="text-[24px] font-semibold tracking-[-0.04em] text-foreground">{title}</h1>
       <p className="mt-2 text-xs leading-5 text-muted-foreground">{description}</p>
     </div>
-  )
+  );
 }

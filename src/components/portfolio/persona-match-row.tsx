@@ -1,19 +1,19 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export type PersonaMatchOption = {
-  label: string
-  left: number
-  top: number
-  size: number
-}
+  label: string;
+  left: number;
+  top: number;
+  size: number;
+};
 
 type PersonaMatchRowProps = {
-  source: string
-  options: readonly PersonaMatchOption[]
-  selected: readonly string[]
-  onToggle: (label: string) => void
-  compact?: boolean
-}
+  source: string;
+  options: readonly PersonaMatchOption[];
+  selected: readonly string[];
+  onToggle: (label: string) => void;
+  compact?: boolean;
+};
 
 export function PersonaMatchRow({ source, options, selected, onToggle, compact = false }: PersonaMatchRowProps) {
   return (
@@ -26,7 +26,7 @@ export function PersonaMatchRow({ source, options, selected, onToggle, compact =
 
       <div className={cn("relative min-w-0", compact ? "h-[148px]" : "h-[184px]")}>
         {options.map((option, index) => {
-          const active = selected.includes(option.label)
+          const active = selected.includes(option.label);
 
           return (
             <button
@@ -45,14 +45,16 @@ export function PersonaMatchRow({ source, options, selected, onToggle, compact =
                 top: `${option.top}%`,
                 width: option.size,
                 height: option.size,
-                animation: active ? undefined : `bubble-float ${3.8 + (index % 3) * 0.65}s ease-in-out ${index * -0.32}s infinite`,
+                animation: active
+                  ? undefined
+                  : `bubble-float ${3.8 + (index % 3) * 0.65}s ease-in-out ${index * -0.32}s infinite`,
               }}
             >
               {option.label}
             </button>
-          )
+          );
         })}
       </div>
     </section>
-  )
+  );
 }

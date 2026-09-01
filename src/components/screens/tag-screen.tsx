@@ -3,8 +3,8 @@ import { useState } from "react";
 import chatAssistant from "@/assets/chat-assistant.png";
 import { OptionChip } from "@/components/portfolio/option-chip";
 import { PageFrame } from "@/components/portfolio/page-frame";
-import { ScreenIntro } from "@/components/portfolio/screen-intro";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
+import { ScreenIntro } from "@/components/portfolio/screen-intro";
 
 const groups = [
   {

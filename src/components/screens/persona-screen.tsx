@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { RotateCcw, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 import chatAssistant from "@/assets/chat-assistant.png";
 import { PageFrame } from "@/components/portfolio/page-frame";
-import { PersonaMatchRow, type PersonaMatchOption } from "@/components/portfolio/persona-match-row";
-import { ScreenIntro } from "@/components/portfolio/screen-intro";
+import { type PersonaMatchOption, PersonaMatchRow } from "@/components/portfolio/persona-match-row";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
+import { ScreenIntro } from "@/components/portfolio/screen-intro";
 import { Button } from "@/components/ui/button";
 
 type MatchGroup = {

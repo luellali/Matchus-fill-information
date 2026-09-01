@@ -8,6 +8,7 @@
 - Tailwind CSS v4（Vite plugin）
 - shadcn/ui 目录结构与 CSS variables
 - 原生 Pointer Events 实现触摸滑动
+- Biome 统一格式化、lint 与 import 整理
 
 ## 目录
 
@@ -18,7 +19,7 @@ src/
     portfolio/   作品集通用组件
     screens/     四个独立页面
   hooks/         交互 hooks
-  lib/           token 与工具方法
+  lib/           通用工具方法
   styles/        全局设计 token
 ```
 
@@ -28,6 +29,23 @@ src/
 pnpm install
 pnpm dev
 ```
+
+## 代码质量
+
+项目根目录的 `biome.json` 是 IDE 与命令行共享的唯一代码规范来源：
+
+```bash
+# 只检查格式、lint 和 import 顺序
+pnpm check
+
+# 自动格式化并应用安全修复
+pnpm check:write
+
+# TypeScript 全量类型检查
+pnpm typecheck
+```
+
+提交前建议依次执行 `pnpm check`、`pnpm typecheck` 和 `pnpm build`。
 
 ## 构建
 
