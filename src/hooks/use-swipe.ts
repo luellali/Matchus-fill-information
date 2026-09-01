@@ -1,7 +1,6 @@
 import { type PointerEventHandler, useRef } from "react";
 
-const INTERACTIVE_TARGETS =
-  "button, a, input, select, textarea, summary, [role='button'], [role='link'], [contenteditable='true']";
+import { isInteractiveElement } from "@/lib/dom";
 
 type SwipeOptions = {
   onSwipeLeft: () => void;
@@ -21,17 +20,14 @@ type SwipeHandlers = {
   onPointerCancel: PointerEventHandler<HTMLElement>;
 };
 
-function isInteractiveTarget(target: EventTarget | null) {
-  return target instanceof Element && Boolean(target.closest(INTERACTIVE_TARGETS));
-}
-
 export function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 56 }: SwipeOptions): SwipeHandlers {
   const start = useRef<SwipeStart | null>(null);
 
   return {
     onPointerDown: (event) => {
+      start.current = null;
       // A gesture starting on a control belongs to that control, not to page navigation.
-      if (isInteractiveTarget(event.target)) return;
+      if (!event.isPrimary || event.button !== 0 || isInteractiveElement(event.target)) return;
       start.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
     },
     onPointerUp: (event) => {

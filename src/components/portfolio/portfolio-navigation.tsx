@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, PanelRightClose, PanelRightOpen } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { StepDots } from "@/components/portfolio/step-dots";
 import { Button } from "@/components/ui/button";
@@ -17,13 +17,6 @@ export function PortfolioNavigation({ current, total, onPrevious, onNext, onSele
   const nextDisabled = current === total - 1;
 
   const [mobileExpanded, setMobileExpanded] = useState(false);
-
-  useEffect(() => {
-    if (!mobileExpanded) return;
-
-    const timeoutId = window.setTimeout(() => setMobileExpanded(false), 4500);
-    return () => window.clearTimeout(timeoutId);
-  }, [mobileExpanded]);
 
   function runMobileNavigation(action: () => void) {
     action();

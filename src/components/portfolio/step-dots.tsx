@@ -12,8 +12,11 @@ export function StepDots({
   orientation?: "horizontal" | "vertical";
 }) {
   return (
-    <nav
-      className={cn("flex items-center justify-center gap-2", orientation === "vertical" && "flex-col")}
+    <fieldset
+      className={cn(
+        "m-0 flex min-w-0 items-center justify-center gap-2 border-0 p-0",
+        orientation === "vertical" && "flex-col",
+      )}
       aria-label="作品页面"
     >
       {Array.from({ length: total }, (_, index) => index).map((pageIndex) => (
@@ -34,6 +37,6 @@ export function StepDots({
           onClick={() => onSelect?.(pageIndex)}
         />
       ))}
-    </nav>
+    </fieldset>
   );
 }

@@ -12,6 +12,7 @@ type NudgePhase = "visible" | "exiting";
 export function ProfileNudge({ onContinue }: ProfileNudgeProps) {
   const [phase, setPhase] = useState<NudgePhase>("visible");
   const replayTimer = useRef<number | null>(null);
+  const actionRef = useRef<HTMLButtonElement>(null);
 
   const replayNudge = useCallback(() => {
     if (replayTimer.current !== null) return;
@@ -26,6 +27,8 @@ export function ProfileNudge({ onContinue }: ProfileNudgeProps) {
   }, []);
 
   useEffect(() => {
+    actionRef.current?.focus({ preventScroll: true });
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") replayNudge();
     };
@@ -49,7 +52,10 @@ export function ProfileNudge({ onContinue }: ProfileNudgeProps) {
       aria-labelledby="profile-nudge-title"
       onClick={replayNudge}
       onKeyDown={(event) => {
-        if (event.key === "Escape") replayNudge();
+        if (event.key === "Tab") {
+          event.preventDefault();
+          actionRef.current?.focus({ preventScroll: true });
+        }
       }}
       tabIndex={-1}
       onPointerDown={(event) => event.stopPropagation()}
@@ -66,6 +72,7 @@ export function ProfileNudge({ onContinue }: ProfileNudgeProps) {
           </p>
         </div>
         <Button
+          ref={actionRef}
           variant="gradient"
           size="sm"
           className="profile-nudge-action"

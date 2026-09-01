@@ -7,18 +7,19 @@ import { DiscoverScreen } from "@/components/screens/discover-screen";
 import { PersonaScreen } from "@/components/screens/persona-screen";
 import { TagScreen } from "@/components/screens/tag-screen";
 import { useSwipe } from "@/hooks/use-swipe";
+import { isInteractiveElement } from "@/lib/dom";
 import { clamp } from "@/lib/utils";
 
 const stageIds = ["discover", "chat", "tags", "persona"] as const;
 
-function getInitialStage() {
-  const hash = window.location.hash.replace("#", "");
-  const index = stageIds.indexOf(hash as (typeof stageIds)[number]);
+function getStageFromHash(hash: string) {
+  const stageId = hash.replace("#", "");
+  const index = stageIds.indexOf(stageId as (typeof stageIds)[number]);
   return index >= 0 ? index : 0;
 }
 
 function App() {
-  const [stage, setStage] = useState(getInitialStage);
+  const [stage, setStage] = useState(() => getStageFromHash(window.location.hash));
 
   const goTo = useCallback((next: number) => {
     setStage(clamp(next, 0, stageIds.length - 1));
@@ -29,10 +30,40 @@ function App() {
   }, [stage]);
 
   useEffect(() => {
+    const syncStageFromHash = () => {
+      const nextStage = getStageFromHash(window.location.hash);
+      const canonicalHash = `#${stageIds[nextStage]}`;
+      if (window.location.hash !== canonicalHash) {
+        window.history.replaceState(null, "", canonicalHash);
+      }
+      setStage(nextStage);
+    };
+    window.addEventListener("hashchange", syncStageFromHash);
+    return () => window.removeEventListener("hashchange", syncStageFromHash);
+  }, []);
+
+  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (stage === 0) return;
-      if (event.key === "ArrowRight") goTo(stage + 1);
-      if (event.key === "ArrowLeft") goTo(stage - 1);
+      if (
+        stage === 0 ||
+        event.defaultPrevented ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        isInteractiveElement(event.target)
+      ) {
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goTo(stage + 1);
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goTo(stage - 1);
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);

@@ -39,14 +39,21 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
     [answers.length],
   );
 
-  function answer(value: string) {
-    if (completed) return;
-    setAnswers((previous) => [...previous, value]);
+  function answer(questionIndex: number, value: string) {
+    // Validate against the latest state so a rapid double tap cannot answer two questions at once.
+    setAnswers((previous) => {
+      if (previous.length !== questionIndex || questionIndex >= questions.length) return previous;
+      return [...previous, value];
+    });
   }
 
   return (
     <PageFrame className="animate-screen-in" stage="chat">
-      <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-(--page-inline) pb-4 pt-3">
+      <div
+        className="no-scrollbar flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-(--page-inline) pb-4 pt-3"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
         {transcript.map((question, index) => (
           <div key={question.prompt} className="contents">
             {index === 0 ? (
@@ -67,7 +74,7 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
             ) : (
               <div className="flex flex-wrap justify-end gap-2 pl-8">
                 {question.options.map((option) => (
-                  <OptionChip key={option} label={option} onClick={() => answer(option)} />
+                  <OptionChip key={option} label={option} onClick={() => answer(index, option)} />
                 ))}
               </div>
             )}
