@@ -88,10 +88,10 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
 
       {!completed || !gender ? (
         <div className="flex items-center gap-3 border-t border-white/70 bg-white/64 px-(--page-inline) pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl">
-          <Mic className="size-4 text-primary" />
+          <Mic className="size-[22px] shrink-0 text-primary" />
           <div className="h-10 flex-1 rounded-full border border-white bg-white/75 shadow-sm" />
-          <Smile className="size-4 text-primary" />
-          <Plus className="size-4 text-primary" />
+          <Smile className="size-[22px] shrink-0 text-primary" />
+          <Plus className="size-[22px] shrink-0 text-primary" />
         </div>
       ) : (
         <ScreenFooter label="选择我的标签" onClick={onNext} />
