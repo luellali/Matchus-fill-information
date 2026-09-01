@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import { cn } from "@/lib/utils";
 
 export type PersonaMatchOption = {
@@ -24,7 +26,7 @@ export function PersonaMatchRow({ source, options, selected, onToggle, compact =
         </div>
       </div>
 
-      <div className={cn("relative min-w-0", compact ? "h-[148px]" : "h-[184px]")}>
+      <div className={cn("persona-match-options relative min-w-0", compact ? "h-[148px]" : "h-[184px]")}>
         {options.map((option, index) => {
           const active = selected.includes(option.label);
 
@@ -35,20 +37,21 @@ export function PersonaMatchRow({ source, options, selected, onToggle, compact =
               aria-pressed={active}
               onClick={() => onToggle(option.label)}
               className={cn(
-                "absolute grid place-items-center rounded-full border px-1 text-center text-[12px] font-semibold leading-4 transition-all duration-300 active:scale-95",
+                "persona-match-option absolute grid place-items-center rounded-full border px-1 text-center text-[12px] font-semibold leading-4 transition-all duration-300 active:scale-95",
                 active
                   ? "z-10 scale-105 border-transparent brand-gradient text-white shadow-[var(--shadow-float)]"
                   : "border-primary/65 bg-[linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,235,244,.72))] text-primary/76 shadow-[0_5px_14px_rgba(92,70,157,0.08)] hover:scale-105 hover:border-primary",
               )}
-              style={{
-                left: `${option.left}%`,
-                top: `${option.top}%`,
-                width: option.size,
-                height: option.size,
-                animation: active
-                  ? undefined
-                  : `bubble-float ${3.8 + (index % 3) * 0.65}s ease-in-out ${index * -0.32}s infinite`,
-              }}
+              style={
+                {
+                  left: `${option.left}%`,
+                  top: `${option.top}%`,
+                  "--bubble-size": `${option.size}px`,
+                  animation: active
+                    ? undefined
+                    : `bubble-float ${3.8 + (index % 3) * 0.65}s ease-in-out ${index * -0.32}s infinite`,
+                } as CSSProperties
+              }
             >
               {option.label}
             </button>

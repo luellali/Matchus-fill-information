@@ -422,6 +422,8 @@ button:focus-visible,
 
   .profile-nudge-title {
     font-size: 12px;
+    line-height: 1.15;
+    white-space: normal;
   }
 }
 
@@ -462,4 +464,20 @@ button:focus-visible,
   -webkit-text-fill-color: #fff;
   text-shadow: 0 1px 1px rgb(48 22 92 / 0.18);
   box-shadow: 0 5px 16px rgb(100 64 176 / 0.22);
+}
+
+.persona-match-options {
+  container-type: inline-size;
+}
+
+.persona-match-option {
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+}
+
+@supports (width: 1cqw) {
+  .persona-match-option {
+    width: min(var(--bubble-size), 30cqw);
+    height: min(var(--bubble-size), 30cqw);
+  }
 }
