@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
-import { Mic, Plus, Smile, Sparkles } from "lucide-react";
+import { Mic, Plus, Smile } from "lucide-react";
 
+import chatAssistant from "@/assets/chat-assistant.png";
 import { ChatBubble } from "@/components/portfolio/chat-bubble";
+import { GenderSelector, type GenderValue } from "@/components/portfolio/gender-selector";
 import { PageFrame } from "@/components/portfolio/page-frame";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
 import { OptionChip } from "@/components/portfolio/option-chip";
@@ -23,6 +25,7 @@ const questions = [
 
 export function ChatScreen({ onNext }: { onNext: () => void }) {
   const [answers, setAnswers] = useState<string[]>([]);
+  const [gender, setGender] = useState<GenderValue | null>(null);
   const active = Math.min(answers.length, questions.length - 1);
   const completed = answers.length === questions.length;
 
@@ -50,12 +53,20 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
       </div>
 
       <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-(--page-inline) pb-4 pt-5">
-        <div className="mx-auto mb-1 grid size-12 place-items-center rounded-[18px] brand-gradient text-white shadow-(--shadow-float)">
-          <Sparkles className="size-5" />
-        </div>
         {transcript.map((question, index) => (
           <div key={question.prompt} className="contents">
-            <ChatBubble>{question.prompt}</ChatBubble>
+            {index === 0 ? (
+              <div className="flex flex-col items-start">
+                <img
+                  src={chatAssistant}
+                  alt="MatchUs 提问助手"
+                  className="mb-1 h-auto w-16 object-contain drop-shadow-[0_6px_12px_rgba(104,70,178,0.2)]"
+                />
+                <ChatBubble>{question.prompt}</ChatBubble>
+              </div>
+            ) : (
+              <ChatBubble>{question.prompt}</ChatBubble>
+            )}
             {answers[index] ? (
               <ChatBubble fromUser>{answers[index]}</ChatBubble>
             ) : (
@@ -67,7 +78,12 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
             )}
           </div>
         ))}
-        {completed && <ChatBubble>收到啦。你的表达已经让 MatchUs 更懂你，接下来选几个属于你的关键词吧。</ChatBubble>}
+        {completed && (
+          <>
+            <ChatBubble>收到啦。你的表达已经让 MatchUs 更懂你，最后再告诉我，你是 F 还是 M？</ChatBubble>
+            <GenderSelector value={gender} onChange={setGender} />
+          </>
+        )}
       </div>
 
       {!completed ? (
@@ -78,7 +94,7 @@ export function ChatScreen({ onNext }: { onNext: () => void }) {
           <Plus className="size-4 text-primary" />
         </div>
       ) : (
-        <ScreenFooter label="选择我的标签" onClick={onNext} />
+        <ScreenFooter label="选择我的标签" disabled={!gender} onClick={onNext} />
       )}
     </PageFrame>
   );
