@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Sparkles } from "lucide-react";
 
 import chatAssistant from "@/assets/chat-assistant.png";
 import { OptionChip } from "@/components/portfolio/option-chip";
 import { PageFrame } from "@/components/portfolio/page-frame";
+import { ScreenIntro } from "@/components/portfolio/screen-intro";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
 
 const groups = [
@@ -80,14 +80,11 @@ export function TagScreen({ onNext }: { onNext: () => void }) {
   return (
     <PageFrame className="animate-screen-in">
       <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-(--page-inline) pb-6 pt-3">
-        <div className="mb-7">
-          <div className="mb-2 flex items-center gap-2 text-primary">
-            <Sparkles className="size-4" />
-            <span className="text-[11px] font-semibold tracking-[0.15em]">ABOUT YOU</span>
-          </div>
-          <h1 className="text-[24px] font-semibold tracking-[-0.04em] text-foreground">选择最代表你的标签</h1>
-          <p className="mt-2 text-xs leading-5 text-muted-foreground">无需面面俱到，先选下此刻最像你的部分。</p>
-        </div>
+        <ScreenIntro
+          eyebrow="ABOUT YOU"
+          title="选择最代表你的标签"
+          description="无需面面俱到，先选下此刻最像你的部分。"
+        />
 
         <div className="space-y-6">
           {groups.map((group) => (

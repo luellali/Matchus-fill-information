@@ -4,6 +4,7 @@ import { RotateCcw, Sparkles } from "lucide-react";
 import chatAssistant from "@/assets/chat-assistant.png";
 import { PageFrame } from "@/components/portfolio/page-frame";
 import { PersonaMatchRow, type PersonaMatchOption } from "@/components/portfolio/persona-match-row";
+import { ScreenIntro } from "@/components/portfolio/screen-intro";
 import { ScreenFooter } from "@/components/portfolio/screen-footer";
 import { Button } from "@/components/ui/button";
 
@@ -98,8 +99,13 @@ export function PersonaScreen({ onRestart }: { onRestart: () => void }) {
   return (
     <PageFrame className="animate-screen-in">
       <div className="px-(--page-inline) pt-3">
-        <h1 className="text-[25px] font-semibold tracking-[-0.04em]">选择你的个性人设</h1>
-        <div className="mt-7 grid grid-cols-[92px_minmax(0,1fr)] gap-3 text-[13px] font-semibold text-primary">
+        <ScreenIntro
+          eyebrow="PERSONA MATCH"
+          title="选择你的个性人设"
+          description="从最像你的身份出发，选择让你更想靠近的匹配气泡。"
+          className="mb-0"
+        />
+        <div className="mt-6 grid grid-cols-[92px_minmax(0,1fr)] gap-3 text-[13px] font-semibold text-primary">
           <h2 className="text-center text-base">你是？</h2>
           <h2 className="text-base pl-6">与这些匹配</h2>
         </div>

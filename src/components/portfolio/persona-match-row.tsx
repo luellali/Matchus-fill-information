@@ -25,7 +25,7 @@ export function PersonaMatchRow({ source, options, selected, onToggle, compact =
       </div>
 
       <div className={cn("relative min-w-0", compact ? "h-[148px]" : "h-[184px]")}>
-        {options.map((option) => {
+        {options.map((option, index) => {
           const active = selected.includes(option.label)
 
           return (
@@ -45,6 +45,7 @@ export function PersonaMatchRow({ source, options, selected, onToggle, compact =
                 top: `${option.top}%`,
                 width: option.size,
                 height: option.size,
+                animation: active ? undefined : `bubble-float ${3.8 + (index % 3) * 0.65}s ease-in-out ${index * -0.32}s infinite`,
               }}
             >
               {option.label}
