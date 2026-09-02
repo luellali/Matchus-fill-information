@@ -13,7 +13,7 @@
     "check:write": "biome check --write .",
     "verify": "pnpm check && pnpm typecheck && pnpm build",
     "preview": "vite preview --host 0.0.0.0",
-    "deploy:cloudbase": "tcb hosting deploy dist --safe --verify"
+    "deploy:cloudbase": "tcb app deploy matchus-fill-information --framework static --install-command '' --build-command '' --output-dir dist --deploy-path / --force"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

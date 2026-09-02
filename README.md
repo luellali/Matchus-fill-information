@@ -90,7 +90,7 @@ pnpm dev
 | `pnpm build`                           | 类型检查并生成生产构建                    |
 | `pnpm verify`                          | 连续执行格式/lint、类型检查和生产构建      |
 | `pnpm preview`                         | 本地预览 `dist/` 生产产物                 |
-| `pnpm deploy:cloudbase -- -e <环境ID>` | 将 `dist/` 发布至 CloudBase 静态托管      |
+| `pnpm deploy:cloudbase -- -e <环境ID>` | 将 `dist/` 发布为现有 CloudBase 应用新版本 |
 
 项目根目录的 `biome.json` 是 IDE 插件与命令行共享的唯一代码规范来源。提交前建议执行 `pnpm verify`，它会依次完成格式/lint、类型检查和生产构建。
 
@@ -144,6 +144,22 @@ pnpm preview
 ```
 
 生产产物位于 `dist/`。Vite 的 `base` 设置为 `./`，因此静态资源使用相对路径，既可部署在域名根目录，也可部署到子目录。
+
+## CI/CD 自动部署
+
+仓库通过 `.github/workflows/deploy-cloudbase.yml` 实现自动部署：
+
+1. Push 到 `main` 后启动 GitHub Actions。
+2. 使用 Node.js 24 和 pnpm 10.30.3 安装锁定依赖。
+3. 执行 `pnpm verify`，完成 Biome、TypeScript 和生产构建。
+4. 仅在验证通过后，将本次生成的 `dist/` 发布为 `matchus-fill-information` 的新版本。
+
+GitHub 仓库需要配置：
+
+- Repository variable：`TCB_ENV_ID`
+- Repository secrets：`TCB_SECRET_ID`、`TCB_SECRET_KEY`
+
+密钥只允许保存在 GitHub Actions Secrets 中，不得写入源码、提交记录或构建日志。工作流也支持在 GitHub Actions 页面手动触发，便于首次部署验证。
 
 ## 腾讯云 CloudBase 部署
 
