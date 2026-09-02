@@ -10,8 +10,8 @@ type GenderSelectorProps = {
 };
 
 const genders: Array<{ value: GenderValue; image: string }> = [
-  { value: "F", image: genderF },
   { value: "M", image: genderM },
+  { value: "F", image: genderF },
 ];
 
 export function GenderSelector({ value, onChange }: GenderSelectorProps) {
