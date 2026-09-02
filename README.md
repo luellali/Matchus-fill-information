@@ -2,6 +2,16 @@
 
 一个用于扫码展示的窄屏优先交互作品集。项目基于 Vite、React 和 TypeScript 实现，将 Figma 中的四个移动端页面还原为真实 Web 组件，而不是整页截图：聊天、标签、性别选择、人格气泡、Toast、遮罩和页面导航均可交互。
 
+## 在线访问
+
+[打开 MatchUs 在线作品集](https://matchus-fill-information-sonarx-d3gxchdb8fb9be1d8.webapps.tcloudbase.com/)
+
+<a href="https://matchus-fill-information-sonarx-d3gxchdb8fb9be1d8.webapps.tcloudbase.com/">
+  <img src="./public/qrcode.png" alt="扫描二维码访问 MatchUs 在线作品集" width="220" />
+</a>
+
+扫描二维码可使用手机浏览器或微信内置浏览器访问。CloudBase 默认测试域名可能先显示平台访问提示页，确认访问后即可进入作品集。
+
 ## 项目说明
 
 - 形态：单页应用（SPA），不依赖后端接口或数据库。
@@ -76,6 +86,23 @@ pnpm dev
 - 同一局域网手机：终端中 Vite 输出的 Network 地址
 
 如果 `5173` 已被占用，Vite 会自动选择其他端口，请以终端输出为准。
+
+### 本地 CloudBase 环境变量
+
+项目提供了可提交的 `.env.example` 模板。首次配置时复制一份本地 `.env`，再填写专用于自动部署的腾讯云 CAM 子用户密钥：
+
+```bash
+cp .env.example .env
+chmod 600 .env
+```
+
+```dotenv
+TCB_ENV_ID=你的_CloudBase_环境_ID
+TCB_SECRET_ID=你的_CAM_SecretId
+TCB_SECRET_KEY=你的_CAM_SecretKey
+```
+
+`.env` 已被 Git 忽略，不会进入仓库；`.env.example` 只能保留字段名和示例，不得填写真实密钥。上述变量也不要添加 `VITE_` 前缀，因为 Vite 会把带该前缀的变量暴露到浏览器构建产物中。
 
 ## 常用命令
 
@@ -159,7 +186,27 @@ GitHub 仓库需要配置：
 - Repository variable：`TCB_ENV_ID`
 - Repository secrets：`TCB_SECRET_ID`、`TCB_SECRET_KEY`
 
-密钥只允许保存在 GitHub Actions Secrets 中，不得写入源码、提交记录或构建日志。工作流也支持在 GitHub Actions 页面手动触发，便于首次部署验证。
+本地 `.env` 不会自动传给 GitHub Actions。安装并登录 GitHub CLI 后，可以从本地文件安全地同步配置；密钥通过标准输入提交，不会出现在命令行参数中：
+
+```bash
+set -a
+source .env
+set +a
+
+printf '%s' "$TCB_SECRET_ID" | gh secret set TCB_SECRET_ID --repo luellali/Matchus-fill-information
+printf '%s' "$TCB_SECRET_KEY" | gh secret set TCB_SECRET_KEY --repo luellali/Matchus-fill-information
+gh variable set TCB_ENV_ID --body "$TCB_ENV_ID" --repo luellali/Matchus-fill-information
+
+unset TCB_ENV_ID TCB_SECRET_ID TCB_SECRET_KEY
+```
+
+真实密钥只允许保存在本机被忽略的 `.env` 和 GitHub Actions Secrets 中，不得写入源码、提交记录、截图或构建日志。工作流也支持在 GitHub Actions 页面手动触发，便于首次部署验证。
+
+首次配置后的建议验证顺序：
+
+1. 在 GitHub 仓库的 `Settings → Secrets and variables → Actions` 确认三个名称均存在。
+2. 先在 Actions 页面手动运行一次 `Verify and deploy to CloudBase`。
+3. 验证部署成功后，后续执行 `git push origin main` 即会自动构建并发布。
 
 ## 腾讯云 CloudBase 部署
 
@@ -169,26 +216,25 @@ GitHub 仓库需要配置：
 
 1. 在腾讯云 CloudBase 控制台创建环境。
 2. 开通“静态网站托管”并记录环境 ID。
-3. 安装 CloudBase CLI 并登录：
+3. 安装 CloudBase CLI，并从本地 `.env` 使用 CAM API 密钥登录：
 
 ```bash
 pnpm add -g @cloudbase/cli
-tcb login
+set -a
+source .env
+set +a
+tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
 ```
 
 4. 检查、构建并发布：
 
 ```bash
-pnpm check
-pnpm typecheck
-pnpm build
-pnpm deploy:cloudbase -- -e <环境ID>
+pnpm verify
+pnpm deploy:cloudbase -- --env-id "$TCB_ENV_ID"
+unset TCB_ENV_ID TCB_SECRET_ID TCB_SECRET_KEY
 ```
 
-部署脚本使用：
-
-- `--safe`：上传或校验失败时回滚。
-- `--verify`：发布后验证远端文件。
+部署脚本使用 `tcb app deploy`，将已通过校验的 `dist/` 作为静态产物发布到现有的 `matchus-fill-information` CloudBase 应用。通常只需使用 GitHub Actions 自动部署；本地 CLI 发布用于首次联调或紧急回退。
 
 ### 控制台上传备选
 
@@ -201,7 +247,7 @@ pnpm deploy:cloudbase -- -e <环境ID>
 3. 使用微信和常见手机浏览器各测试一次。
 4. 确认图片、Toast 动画、四页导航和底部安全区显示正常。
 
-仓库根目录的 `matchus-qrcode.png` 指向当前 CloudBase 测试地址。扫码会遇到上述访问提示页，这是托管平台行为，前端代码无法移除。长期正式使用时，应准备完成 ICP 备案的自定义域名并绑定到托管服务。
+`public/qrcode.png` 指向当前 CloudBase 测试地址，并已作为 README 的访问入口展示。扫码会遇到上述访问提示页，这是托管平台行为，前端代码无法移除。长期正式使用时，应准备完成 ICP 备案的自定义域名并绑定到托管服务。
 
 更完整的操作步骤、控制台上传方案和其他平台取舍见：[CloudBase 临时部署方案](docs/deployment-cloudbase.md)。
 
